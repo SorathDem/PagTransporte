@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chase Landing Layout</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    {% load static %}
+	<link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/featherlight.min.css' %}">
+	<link href='https://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
+	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="js/featherlight.min.js"></script> 
+
+</head>
+<body>
+	<header id="top">
+		<div class="wrapper">
+		  <h1 class="logo"><a href="#">Chase</a></h1>
+		  <nav>
+			<ul id="navigation">
+				<li><a class="nav-cta" href="/accounts/login/" onclick="mostrarModal('/accounts/login/')">Iniciar Sesión</a></li>
+			</ul>
+		  </nav>
+		</div>
+	  </header>
+
+
+	  
+	  <section id="banner"><a name="home"></a>
+		<div class="bg-center-container no-margin">
+            <div class="bg-center">
+                <div class="content-button">
+                    <h3 class="no-margin text-center">UniRumbo</h3>
+                    <h4 class="no-margin text-center">El propósito de UniRumbo es ofrecer una plataforma web que le facilite a los estudiantes de la Universidad de Cundinamarca abordar dos necesidades fundamentales: trasporte y alojamiento.</h4>
+                </div>
+            </div>
+        </div>
+	</section>
+	
+	<section class="services-section">
+		<div class="wrapper">
+			<p class="subtitle">Aquí puedes encontrar rutas y alojamientos</p>
+			<ul class="services-list">
+				<li>
+					<div class="{% static 'image-container' %}">
+						<img src="{% static 'images/casa.png' %}">
+					</div>
+					<p>Encuentra opciones seguras y accesibles de alojamiento cerca de la universidad. Compara precios, ubicaciones y elige el lugar ideal para tu estancia.</p>
+					<a href="/ruta/">Míralo aquí</a>
+				</li>
+				<li>
+					<div class="image-container">
+						<img src="{% static 'images/carroo.jpg' %}" alt="services icon">
+					</div>
+					<p>Conecta con otros estudiantes que van hacia la universidad en tus mismos horarios. Comparte trayectos, ahorra dinero y viaja de forma segura y confiable.</p>
+					<a href="/alojamiento/">Míralo aquí</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+
+	<h2>Solicitudes Pendientes</h2>
+
+{% for solicitud in solicitudes %}
+    <div class="solicitud">
+        <p><strong>Estudiante:</strong> {{ solicitud.estudiante.username }}</p>
+        <p><strong>Ruta:</strong> {{ solicitud.ruta.title }}</p>
+        <p><strong>Día:</strong> {{ solicitud.dia }}</p>
+        <p><strong>Tipo de Viaje:</strong> {{ solicitud.tipo_viaje }}</p>
+        <form method="POST" action="{% url 'gestionar_solicitud' solicitud.id %}">
+            {% csrf_token %}
+            <button type="submit" name="accion" value="aceptar">Aceptar</button>
+            <button type="submit" name="accion" value="rechazar" style="color: red;">Rechazar</button>
+        </form>
+    </div>
+{% endfor %}
+</html>
