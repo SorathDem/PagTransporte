@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Chase Landing Layout</title>
+    {% load static %}
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/featherlight.min.css' %}">
+	<link href='https://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
+	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="js/featherlight.min.js"></script> 
+
+</head>
+<body>
+	<header id="top">
+		<div class="wrapper">
+		  <h1 class="logo"><a href="#">Chase</a></h1>
+          <nav>
+            <ul>
+                <li><a href="/index/">Inicio</a></li>
+                <li><a href="/alojamiento/">Residencias</a></li>
+                <li><a href="/rutas/">Rutas</a></li>
+                <li><a href="/perfil/">Perfil</a></li>
+				<li><a href="/admin/">admin</a></li>
+            </ul>
+        </nav>
+		</div>
+	  </header>
+      
+	  
+	  <section id="banner"><a name="home"></a>
+		<div class="bg-center-container no-margin">
+            <div class="bg-center">
+                <div class="content-button">
+                    <h3 class="no-margin text-center">UniRumbo</h3>
+                    <h4 class="no-margin text-center">El propósito de UniRumbo es ofrecer una plataforma web que le facilite a los estudiantes de la Universidad de Cundinamarca abordar dos necesidades fundamentales: trasporte y alojamiento.</h4>
+                </div>
+            </div>
+        </div>
+	</section>
+	
+	<section class="services-section">
+		<div class="wrapper">
+			<p class="subtitle">Aquí puedes encontrar rutas y residencias</p>
+			<ul class="services-list">
+				<li>
+					<div class="image-container">
+						<img src="{% static 'img/casa.png'%}">
+					</div>
+					<p>Encuentra opciones seguras y accesibles de alojamiento cerca de la universidad. Compara precios, ubicaciones y elige el lugar ideal para tu residencia.</p>
+					<a href="/alojamiento/">Míralo aquí</a>
+				</li>
+				<li>
+					<div class="image-container">
+						<img src="{% static 'img/carroo.jpg' %}" alt="services icon">
+					</div>
+					<p>Conecta con otros estudiantes que van hacia la universidad en tus mismos horarios. Comparte trayectos, ahorra dinero y viaja de forma segura y confiable.</p>
+					<a href="/rutas/">Míralo aquí</a>
+				</li>
+			</ul>
+		</div>
+	</section>
+</html>

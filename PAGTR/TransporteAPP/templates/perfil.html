@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Residencias - UniRumbo</title>
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/featherlight.min.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Arimo:400,700' rel='stylesheet' type='text/css'>
+    
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/featherlight.min.js' %}"></script>
+    <style>
+        /* Contenedor de botones en línea */
+.button-container {
+    display: flex !important;
+    gap: 10px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 20px !important;
+}
+
+/* Estilos de los botones */
+.button-2 {
+    display: inline-block !important;
+    background-color: #007b3e !important;
+    color: white !important;
+    padding: 10px 15px !important;
+    text-decoration: none !important;
+    border-radius: 5px !important;
+    font-size: 14px !important;
+    transition: background 0.3s !important;
+}
+
+.button-2:hover {
+    background-color: #004321 !important;
+}
+
+/* Estilos específicos para eliminar */
+.button-2.delete {
+    background-color: red !important;
+}
+
+.button-2.delete:hover {
+    background-color: darkred !important;
+}
+
+/* Residencias Section */
+.residencias-section {
+            text-align: center;
+            padding: 100px 0;
+            background: #f9f9f9;
+        }
+
+        .residencias-section p.subtitle {
+            color: #007b3e;
+            font-size: 25px;
+        }
+        
+        .titulo-section {
+            text-align: center;
+            padding: 100px 0;
+            background: #f9f9f9;
+        }
+
+        .titulo-section p.subtitle {
+            color: #007b3e;
+            font-size: 25px;
+        }
+
+        ul.residencias-list {
+            width: 70%;
+            margin: 60px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        ul.residencias-list li {
+            background: #fff;
+            padding: 60px;
+            box-shadow: 0px 0px 40px rgba(0,0,0,.1);
+        }
+
+        ul.residencias-list li h3 {
+            font-family: 'Arimo', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #004321;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        ul.residencias-list li p {
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .residencias-list img {
+            width: 300px; /* Cambia este valor según necesites */
+            height: auto; /* Mantiene la proporción */
+            border-radius: 8px; /* Opcional, para bordes redondeados */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Opcional, para efecto de sombra */
+        }
+
+        ul.residencias-list li .location-label {
+            font-family: 'Arimo', sans-serif;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #004321;
+            margin: 20px 0;
+        }
+
+        ul.residencias-list li .map-container {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        ul.residencias-list li a.button-1 {
+            background: #007b3e;
+            margin-top: 20px;
+        }
+        
+        ul.residencias-list li a.button-1:hover {
+            background: #004321;
+            margin-top: 20px;
+        }
+
+        /* Contenedor de fotos */
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .photo-gallery img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Botón flotante */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007b3e;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .floating-button:hover {
+            background: #004321;
+        }
+
+        /* Estilo del modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007b3e;
+            margin-bottom: 20px;
+        }
+
+        .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-content input,
+        .modal-content textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .modal-content textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        .modal-content button {
+            background: #007b3e;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .modal-content button:hover {
+            background: #004321;
+        }
+
+        .modal-content .close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #444;
+        }
+
+        /* Responsive Adjustments */
+        @media only screen and (max-width: 960px) {
+            ul.residencias-list li {
+                padding: 40px;
+            }
+        }
+        
+        /* Contenedor de botones en línea */
+
+
+        /* Botón flotante */
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #007b3e;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .floating-button:hover {
+            background: #004321;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <header id="top">
+        <div class="wrapper">
+            <h1 class="logo"><a href="/principal/">UniRumbo</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="/principal/">Inicio</a></li>
+                    <li><a href="/misrutas/">Mis Rutas</a></li>
+                    <li><a href="/miscalificaciones/">Mis Califiaciones</a></li>
+                    <li><a href="/solicitudes/">Mis solicitudes</a></li>
+                    {% if receiver and receiver.id %}
+                    <a href="{% url 'chat' user_id=receiver.id %}">Ir al chat</a>
+                {% else %}
+                    <p>No hay usuario disponible para el chat.</p>
+                {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="residencias-section">
+        <div class="wrapper">
+            <p class="subtitle">Perfil</p>
+        </div>
+    </section>
+    <section class="titulo-section">
+        <div class="wrapper">
+            <p class="subtitle">Mis Alojamientos</p>
+        </div>
+    </section>
+
+    <button class="floating-button" onclick="openModal()">+</button>
+
+<!-- Modal para Crear Residencia -->
+<div id="createResidenciaModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Crear Nueva Residencia</h3>
+        <form id="createResidenciaForm" method="POST" action="{% url 'crear_residencia' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" name="titulo" placeholder="Título de la publicación" required>
+            <textarea name="descripcion" placeholder="Descripción (tipo de alojamiento, valor mensual, detalles)" required></textarea>
+            <input type="text" name="ubicacion" placeholder="Enlace de Google Maps (URL del iframe)" required>
+            <input type="file" name="imagenes" accept="image/*" multiple>
+            <button type="submit">Crear Residencia</button>
+        </form>
+    </div>
+</div>
+
+<script>
+ function openModal() {
+    document.getElementById('createResidenciaModal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('createResidenciaModal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('createResidenciaModal');
+    if (event.target == modal) {
+        closeModal();
+    }
+};
+
+</script>
+
+<ul class="residencias-list">
+    {% load static %}
+    {% for residencia in residencias %}
+        <li>
+            <h3>{{ residencia.titulo }}</h3>
+            
+            <div class="photo-gallery">
+                {% load static %}
+                {% for imagen in residencia.imagenes.all %}
+                    <img src="{{ imagen.imagen.url }}" alt="Imagen de {{ residencia.titulo }}">
+                {% endfor %}
+            </div>
+
+            <p>{{ residencia.descripcion }}</p>
+            <p class="location-label">Ubicación de la Vivienda:</p>
+            <div class="map-container">
+                <iframe src="{{ residencia.ubicacion }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="chat.html?item=residencia{{ residencia.id }}" class="button-1">Contacto</a>
+            {% if residencia.usuario == request.user %}
+            <a href="{% url 'editar_residencia' residencia.id %}" class="button">Editar</a>
+            <a href="{% url 'eliminar_residencia' residencia.id %}" class="button" style="color: red;">Eliminar</a>
+        {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
+

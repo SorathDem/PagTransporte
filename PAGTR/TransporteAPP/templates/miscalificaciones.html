@@ -1,0 +1,106 @@
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+h2 {
+    color: #555;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #007b3e;
+    color: white;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+td:nth-child(2) {
+    font-size: 1.5em;
+    color: #ff9800;
+}
+
+p {
+    font-size: 18px;
+    color: #777;
+}
+
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    td:nth-child(2) {
+        font-size: 1.2em;
+    }
+}
+
+</style>
+
+<html>
+<a href="/perfil/">atras</a>
+</html>
+<!-- miscalificaciones.html -->
+<h1>Mis Calificaciones</h1>
+{% if calificaciones %}
+    <h2>Promedio de calificación: {{ promedio|floatformat:2 }} estrellas</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Calificado por</th>
+                <th>Calificación</th>
+                <th>Comentario</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for calificacion in calificaciones %}
+                <tr>
+                    <td>{{ calificacion.usuario.username }}</td>
+                    <td>
+                        {% for _ in calificacion.range_estrellas %}
+                            ★
+                        {% endfor %}
+                    </td>
+                    <td>{{ calificacion.comentario }}</td>
+                    <td>{{ calificacion.fecha }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No tienes calificaciones.</p>
+{% endif %}
