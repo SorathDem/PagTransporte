@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -94,14 +95,10 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'transporteudec',
-        'USER': 'postgres',
-        'PASSWORD': 'ggmaemia',
-        'HOST': 'localhost',  # O la IP de tu servidor
-        'PORT': '5432',  # Puerto por defecto de PostgreSQL
-    }
+    'default': dj_database_url.config(
+        defaul='postgresql://postgresql:postgres@localhost/postgres',
+        comn_max_age=600
+    )
 }
 
 
