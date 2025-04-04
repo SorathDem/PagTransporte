@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'PAGTR.urls'
+ROOT_URLCONF = 'PAGTR.PAGTR.urls'
 LOGIN_REDIRECT_URL = 'pagprincipal'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
