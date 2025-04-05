@@ -104,9 +104,6 @@ def edit_rut(request):
 def pagprincipal(request):
     return render(request, "pagPrincipal.html")
 
-def alojamiento(request):
-    return render(request, "alojamiento.html")
-
 def redirigir_usuario(request):
     if request.user.is_superuser:
         return redirect('pagPrincipal')  # Redirige al panel de administración

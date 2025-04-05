@@ -47,6 +47,5 @@ urlpatterns = [
     path("registro/", views.registro, name="registro"),
     path("rutas/", views.listar_rutas, name="listar_rutas"),
     path("crear_ruta/", views.crear_ruta, name="crear_ruta"),
-    path("alojamiento/", views.alojamiento, name="rutas"),
     path("chat/<str:object_type>/<int:object_id>/", views.chat_view, name="chat"),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
