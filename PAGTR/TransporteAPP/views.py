@@ -214,6 +214,7 @@ def crear_ruta(request):
 
     return render(request, "crear_ruta.html")
 
+@login_required
 def listar_rutas(request):
     rutas = Ruta.objects.all()  # Obtener todas las rutas de la base de datos
     return render(request, 'rutas.html', {'rutas': rutas, 'usuario_id': request.user.id})
@@ -229,6 +230,7 @@ def residencias(request):
     residencias = Residencia.objects.all()
     return render(request, 'alojamiento.html', {'residencias': residencias})
 
+@login_required
 def lista_residencias(request):
     residencias = Residencia.objects.all()
     return render(request, "alojamiento.html", {"residencias": residencias})
