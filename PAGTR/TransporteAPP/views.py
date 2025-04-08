@@ -234,7 +234,7 @@ def residencias(request):
 
 def lista_residencias(request):
     residencias = Residencia.objects.all()
-    return render(request, "alojamiento.html", {"residencias": residencias})
+    return render('/alojamiento/', {"residencias": residencias})
 
 def lista_r(request):
     residencias = Residencia.objects.filter(usuario=request.user)
