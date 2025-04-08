@@ -103,10 +103,10 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tranporteudec',
-        'USER': 'root',
-        'PASSWORD': 'ggmaemia',
-        'HOST': 'localhost',  # O la IP de tu servidor
+        'NAME': 'bo3dm5epmduxoqm51h0j',
+        'USER': 'ubjwnvknhfcng6vu',
+        'PASSWORD': '37ZMn9cj9vmMAjMrdyRB',
+        'HOST': 'bo3dm5epmduxoqm51h0j-mysql.services.clever-cloud.com',  # O la IP de tu servidor
         'PORT': '3306',  # Puerto por defecto de PostgreSQL
     }
 }
