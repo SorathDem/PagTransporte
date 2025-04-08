@@ -30,6 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret')
 DEBUG = 'RENDER' not in os.environ
 
 LOGIN_URL = '/accounts/login/'
+
 ALLOWED_HOSTS = []
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -146,9 +147,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # (opcional, si tienes una carpeta 'static' con tus archivos personalizados)
-]
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
