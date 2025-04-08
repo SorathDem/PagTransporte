@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-ASGI_APPLICATION = 'PAGTR.PAGTR.asgi.application'
+ASGI_APPLICATION = 'PAGTR.PAGTR.wsgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
