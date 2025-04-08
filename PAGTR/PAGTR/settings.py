@@ -14,8 +14,6 @@ from pathlib import Path
 import os
 import sys
 import pymysql
-import dj_database_url
-
 
 pymysql.install_as_MySQLdb()
 
@@ -103,7 +101,14 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('mysql://ubjwnvknhfcng6vu:37ZMn9cj9vmMAjMrdyRB@bo3dm5epmduxoqm51h0j-mysql.services.clever-cloud.com:3306/bo3dm5epmduxoqm51h0j'))
+    'default':{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bo3dm5epmduxoqm51h0j',
+        'USER': 'ubjwnvknhfcng6vu',
+        'PASSWORD': '37ZMn9cj9vmMAjMrdyRB',
+        'HOST': 'bo3dm5epmduxoqm51h0j-mysql.services.clever-cloud.com',  # O la IP de tu servidor
+        'PORT': '3306',  # Puerto por defecto de PostgreSQL
+    }
 }
 
 
