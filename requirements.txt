@@ -3,8 +3,10 @@ certifi==2025.1.31
 channels==4.2.2
 charset-normalizer==3.4.1
 Django==5.2
+gunicorn==23.0.0
 idna==3.10
 mysqlclient==2.2.7
+packaging==24.2
 pillow==11.1.0
 PyMySQL==1.1.1
 requests==2.32.3
