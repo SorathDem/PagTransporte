@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
-
+import sys
 import pymysql
+
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,6 +29,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'RENDER' not in os.environ
+
+sys.path.append(os.path.join(BASE_DIR, 'PAGTR'))
 
 LOGIN_URL = '/accounts/login/'
 
