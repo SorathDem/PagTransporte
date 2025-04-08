@@ -15,6 +15,7 @@ from PAGTR.TransporteAPP.routing import websocket_urlpatterns
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PAGTR.PAGTR.settings')
 
+application = get_asgi_application()
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": URLRouter(websocket_urlpatterns),
