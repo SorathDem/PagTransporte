@@ -1,17 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
-class Message(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sent_messages")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_messages")
-    content = models.TextField()  # Solo texto, sin emojis
-    timestamp = models.DateTimeField(auto_now_add=True)  # Fecha y hora del mensaje
-
-    class Meta:
-        ordering = ["timestamp"]  # Ordenar por fecha de envío
-
-    def __str__(self):
-        return f"{self.sender} -> {self.receiver}: {self.content}"
 
 
 class Residencia(models.Model):
