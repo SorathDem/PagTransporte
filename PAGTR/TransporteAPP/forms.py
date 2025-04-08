@@ -45,10 +45,33 @@ class CustomUserCreationForm(forms.ModelForm):  # Se usa ModelForm en lugar de U
             user.save()
         return user
     
+# forms.py
 class ResidenciaForm(forms.ModelForm):
+    MUNICIPIOS_CUNDINAMARCA = [
+        ('Bogotá', 'Bogotá'),
+        ('Chía', 'Chía'),
+        ('Zipaquirá', 'Zipaquirá'),
+        ('Soacha', 'Soacha'),
+        ('Facatativá', 'Facatativá'),
+        ('Girardot', 'Girardot'),
+        ('Madrid', 'Madrid'),
+        ('Fusagasugá', 'Fusagasugá'),
+        ('Mosquera', 'Mosquera'),
+        ('La Calera', 'La Calera'),
+        ('Sibaté', 'Sibaté'),
+        ('Cajicá', 'Cajicá'),
+        ('Tabio', 'Tabio'),
+        ('Tenjo', 'Tenjo'),
+        ('Tocancipá', 'Tocancipá'),
+        # Puedes seguir agregando todos los municipios que quieras
+    ]
+
+    municipio = forms.ChoiceField(choices=MUNICIPIOS_CUNDINAMARCA, required=True)
+
     class Meta:
         model = Residencia
-        fields = ['titulo', 'descripcion', 'ubicacion']
+        fields = ['titulo', 'descripcion', 'ubicacion', 'municipio']
+
 
 class ResidenciaImagenForm(forms.ModelForm):
     class Meta:
@@ -58,7 +81,7 @@ class ResidenciaImagenForm(forms.ModelForm):
 class RutaForm(forms.ModelForm):
     class Meta:
         model = Ruta
-        fields = ['title', 'description', 'vehiculo', 'cupos', 'usuario']
+        fields = ['title', 'description', 'vehiculo', 'cupos', 'usuario', 'municipio_ruta']
     
 
 class CupoPorDiaForm(forms.ModelForm):
@@ -96,3 +119,10 @@ class CalificacionForm(forms.ModelForm):
             'estrellas': forms.RadioSelect(),
             'comentario': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
+        
+from .models import Mensaje
+
+class MensajeForm(forms.ModelForm):
+    class Meta:
+        model = Mensaje
+        fields = ['texto']

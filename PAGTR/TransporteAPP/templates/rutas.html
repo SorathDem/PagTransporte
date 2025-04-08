@@ -294,12 +294,16 @@ body {
         };
     </script>
 
+<div class="wrapper">
+    <input type="text" id="buscadorMunicipio" placeholder="Buscar por municipio..." onkeyup="filtrarMunicipios()" style="width: 100%; padding: 10px; margin-bottom: 20px; font-size: 16px;">
+</div>
+
 <ul class="rutas-list">
     {% for ruta in rutas %}
         <li class="ruta-item">
             <div class="ruta-header">               
                 </a>
-                <h3>{{ ruta.title }}</h3>
+                <h3>{{ ruta.title }} - {{ ruta.municipio_ruta }}</h3></h3>
                 <p>{{ ruta.description }}</p>
             </div>
             <div class="ruta-info">
@@ -337,7 +341,7 @@ body {
 
             <!-- Botones visibles -->
             <div class="ruta-actions">
-                <a href="{% url 'chat' object_type='ruta' object_id=ruta.id %}" class="button-1">Contacto</a>
+                <a href="{% url 'chat_privado' user_id=ruta.usuario.id %}" class="button-1">Contactar</a>
                 <button class="button" onclick="openApplyModal('{{ ruta.id }}')">Aplicar</button>
                 <a href="{% url 'perfil_usuario' ruta.usuario.id %}" class="btn btn-info">Ver Perfil</a>
             </div>
@@ -379,7 +383,23 @@ body {
     </div>
 </div>
 
-
+<script>
+    function filtrarMunicipios() {
+        const input = document.getElementById('buscadorMunicipio');
+        const filtro = input.value.toLowerCase();
+        const rutas = document.querySelectorAll('.rutas-list .ruta-item');
+    
+        rutas.forEach(ruta => {
+            const municipio = ruta.querySelector('h3').innerText.toLowerCase();
+            if (municipio.includes(filtro)) {
+                ruta.style.display = '';
+            } else {
+                ruta.style.display = 'none';
+            }
+        });
+    }
+    </script>
+    
 
 </body>
 </html>

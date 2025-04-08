@@ -27,8 +27,9 @@ def login_page(request):
 def principal(request):
     return render(request, "index.html")
 
-def chat(request):
-    return render(request, "chat.html")
+def chat(request, chat_id):
+    chat = get_object_or_404(Chat, id=chat_id)
+    return render(request, 'chat.html', {'chat': chat, 'user': request.user})
 
 def detalle_ruta(request, ruta_id):
     ruta = get_object_or_404(Ruta, id=ruta_id)  # Obtener la ruta
@@ -183,14 +184,16 @@ def crear_ruta(request):
         descripcion = request.POST.get("description")
         vehiculo = request.POST.get("vehiculo")
         cupos_totales = request.POST.get("cupos")
-
+        municipio_ruta = request.POST.get("municipio_ruta")
+        
         # Crear la ruta en la base de datos
         ruta = Ruta.objects.create(
             title=titulo,  # Usar la variable obtenida en lugar de `form.cleaned_data`
             description=descripcion,
             vehiculo=vehiculo,
             cupos=cupos_totales,
-            usuario=request.user
+            usuario=request.user,
+            municipio_ruta=municipio_ruta,
         )
 
         # Guardar los cupos por día
@@ -242,12 +245,14 @@ def crear_residencia(request):
         titulo = request.POST['titulo']
         descripcion = request.POST['descripcion']
         ubicacion = request.POST['ubicacion']
+        municipio = request.POST['municipio']
         
         nueva_residencia = Residencia.objects.create(
             usuario=request.user,
             titulo=titulo,
             descripcion=descripcion,
-            ubicacion=ubicacion
+            ubicacion=ubicacion,
+            municipio=municipio,
         )
         
         # Guardar múltiples imágenes
@@ -441,5 +446,74 @@ def rutas(request):
         perfil_url = "#"
     return render(request, 'rutas.html', {'usuario': usuario, 'perfil_url': perfil_url})
 
+from .forms import MensajeForm
+from .models import Mensaje
 
+
+def chat_privado(request, user_id):
+    user_destino = get_object_or_404(User, id=user_id)
+    user_actual = request.user
+
+    # Buscar si ya existe un chat entre ellos
+    chat = Chat.objects.filter(participantes=user_actual).filter(participantes=user_destino).first()
+
+    if not chat:
+        # Si no existe, crear un nuevo chat
+        chat = Chat.objects.create()
+        chat.participantes.add(user_actual, user_destino)
+        chat.save()
+
+    # Redirigir al template del chat, pasándole el chat_id
+    return render(request, 'chat.html', {'chat': chat, 'user': request.user})
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Mensaje, Chat  # Ajusta a tus modelos
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Chat, Mensaje
+import json
+
+@csrf_exempt
+def mensajes_chat(request, chat_id):
+    chat = Chat.objects.get(id=chat_id)
+
+    if request.method == 'GET':
+        mensajes = chat.mensajes.select_related('remitente').order_by('fecha_creacion')
+        data = [{
+            'id': mensaje.id,
+            'remitente': mensaje.remitente.username,
+            'texto': mensaje.texto,
+            'fecha_creacion': mensaje.fecha_creacion.isoformat()
+        } for mensaje in mensajes]
+        return JsonResponse(data, safe=False)
+
+    elif request.method == 'POST':
+        body = json.loads(request.body)
+        texto = body['texto']
+        remitente_id = body['remitente_id']
+
+        remitente = User.objects.get(id=remitente_id)
+
+        mensaje = Mensaje.objects.create(chat=chat, remitente=remitente, texto=texto)
+        return JsonResponse({'success': True, 'mensaje_id': mensaje.id})
+
+def mis_chats(request):
+    chats = request.user.chats.all()
+
+    chats_con_otros = []
+    for chat in chats:
+        otros = chat.participantes.exclude(id=request.user.id)
+        if otros.exists():
+            chats_con_otros.append({
+                'chat': chat,
+                'otro_participante': otros.first()
+            })
+
+    return render(request, 'mis_chats.html', {
+        'chats_con_otros': chats_con_otros,
+    })
 

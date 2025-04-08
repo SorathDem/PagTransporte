@@ -239,10 +239,33 @@
             {% csrf_token %}
             <input type="text" name="title" id="rutaTitle" placeholder="Título de la ruta" required>
             <textarea name="description" id="rutaDescription" placeholder="Descripción de la ruta" required></textarea>
+        
+            <!-- Nuevo campo de Municipio -->
+            <select name="municipio_ruta" id="municipioRuta" required>
+                <option value="">Seleccione un municipio</option>
+                <option value="Bogota">Bogotá</option>
+                <option value="Chia">Chía</option>
+                <option value="Zipaquira">Zipaquirá</option>
+                <option value="Soacha">Soacha</option>
+                <option value="Facatativá">Facatativá</option>
+                <option value="Girardot">Girardot</option>
+                <option value="Madrid">Madrid</option>
+                <option value="Fusagasugá">Fusagasugá</option>
+                <option value="Mosquera">Mosquera</option>
+                <option value="La Calera">La Calera</option>
+                <option value="Sibate">Sibaté</option>
+                <option value="Cajica">Cajicá</option>
+                <option value="Tabio">Tabio</option>
+                <option value="Tenjo">Tenjo</option>
+                <option value="Tocancipá">Tocancipá</option>
+                <!-- Puedes seguir agregando más si quieres -->
+            </select>
+        
             <select name="vehiculo" id="vehiculoTipo">
                 <option value="Carro">Carro</option>
                 <option value="Moto">Moto</option>
             </select>
+        
             <input type="number" name="cupos" id="rutaCupos" placeholder="Número de cupos" required>
             
             <h4>Cupos por Día</h4>
@@ -264,8 +287,8 @@
                     <button type="button" onclick="eliminarCupo(this)">-</button>
                 </div>
             </div>
+        
             <button type="button" onclick="agregarCupo()">Agregar Día</button>
-            
             <button type="submit">Crear Ruta</button>
         </form>
     </div>
@@ -330,7 +353,7 @@
     {% for ruta in rutas %}
         <li class="ruta-item">
             <div class="ruta-header">
-                <h3>{{ ruta.title }}</h3>
+                <h3>{{ ruta.title }}- {{ ruta.municipio_ruta }}</h3>
                 <p>{{ ruta.description }}</p>
             </div>
             <div class="ruta-info">

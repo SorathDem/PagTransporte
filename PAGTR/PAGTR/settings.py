@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+import pymysql
+pymysql.install_as_MySQLdb()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,7 +63,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
-ROOT_URLCONF = 'PAGTR.PAGTR.urls'
+ROOT_URLCONF = 'PAGTR.urls'
 LOGIN_REDIRECT_URL = 'pagprincipal'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -81,11 +84,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'PAGTR.wsgi.application'
+ASGI_APPLICATION = 'PAGTR.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",  # Para producción usar Redis
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
     },
 }
 
@@ -96,10 +99,10 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'bo3dm5epmduxoqm51h0j',
-        'USER': 'ubjwnvknhfcng6vu',
-        'PASSWORD': '37ZMn9cj9vmMAjMrdyRB',
-        'HOST': 'bo3dm5epmduxoqm51h0j-mysql.services.clever-cloud.com',  # O la IP de tu servidor
+        'NAME': 'tranporteudec',
+        'USER': 'root',
+        'PASSWORD': 'ggmaemia',
+        'HOST': 'localhost',  # O la IP de tu servidor
         'PORT': '3306',  # Puerto por defecto de PostgreSQL
     }
 }

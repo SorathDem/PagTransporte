@@ -277,7 +277,88 @@
             background: #004321;
         }
 
-       
+        ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    ul {
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+
+
+h2 {
+    text-align: center;
+    color: #007b3e;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+/* Contenedor general de la lista */
+ul {
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    max-width: 800px;
+    background-color: #fff;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+/* Cada elemento de la lista */
+li {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    font-size: 1.1em;
+    color: #333;
+}
+
+li:last-child {
+    border-bottom: none; /* Quitar borde al último elemento */
+}
+
+/* Estilo para el link de entrar al chat */
+a {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95em;
+    width: fit-content;
+    transition: background-color 0.3s ease;
+}
+
+a:hover {
+    background-color: #218838;
+}
+
+/* Estilo cuando no hay chats */
+ul li:only-child {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    li {
+        padding: 15px;
+        font-size: 1em;
+    }
+
+    a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -291,112 +372,19 @@
                     <li><a href="/miscalificaciones/">Mis Califiaciones</a></li>
                     <li><a href="/solicitudes/">Mis solicitudes</a></li>
                     <li><a href="/mis_chats/">Mis Chats</a></li>
-                    {% if receiver and receiver.id %}
-                    <a href="{% url 'chat' user_id=receiver.id %}">Ir al chat</a>
-                {% else %}
-                    <p>No hay usuario disponible para el chat.</p>
-                {% endif %}
-
                 </ul>
             </nav>
         </div>
     </header>
-    <section class="residencias-section">
-        <div class="wrapper">
-            <p class="subtitle">Perfil</p>
-        </div>
-    </section>
-    <section class="titulo-section">
-        <div class="wrapper">
-            <p class="subtitle">Mis Alojamientos</p>
-        </div>
-    </section>
 
-    <button class="floating-button" onclick="openModal()">+</button>
-
-<!-- Modal para Crear Residencia -->
-<div id="createResidenciaModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Crear Nueva Residencia</h3>
-        <form id="createResidenciaForm" method="POST" action="{% url 'crear_residencia' %}" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="text" name="titulo" placeholder="Título de la publicación" required>
-            <textarea name="descripcion" placeholder="Descripción (tipo de alojamiento, valor mensual, detalles)" required></textarea>
-            <input type="text" name="ubicacion" placeholder="Enlace de Google Maps (URL del iframe)" required>
-        
-            <!-- Nuevo campo de Municipio -->
-            <select name="municipio" required>
-                <option value="">Seleccione un municipio</option>
-                <option value="Bogotá">Bogotá</option>
-                <option value="Chía">Chía</option>
-                <option value="Zipaquirá">Zipaquirá</option>
-                <option value="Soacha">Soacha</option>
-                <option value="Facatativá">Facatativá</option>
-                <option value="Girardot">Girardot</option>
-                <option value="Madrid">Madrid</option>
-                <option value="Fusagasugá">Fusagasugá</option>
-                <option value="Mosquera">Mosquera</option>
-                <option value="La Calera">La Calera</option>
-                <option value="Sibaté">Sibaté</option>
-                <option value="Cajicá">Cajicá</option>
-                <option value="Tabio">Tabio</option>
-                <option value="Tenjo">Tenjo</option>
-                <option value="Tocancipá">Tocancipá</option>
-                <!-- Puedes seguir agregando más -->
-            </select>
-        
-            <input type="file" name="imagenes" accept="image/*" multiple>
-            <button type="submit">Crear Residencia</button>
-        </form>
-    </div>
-</div>
-
-<script>
- function openModal() {
-    document.getElementById('createResidenciaModal').style.display = 'flex';
-}
-
-function closeModal() {
-    document.getElementById('createResidenciaModal').style.display = 'none';
-}
-
-window.onclick = function(event) {
-    const modal = document.getElementById('createResidenciaModal');
-    if (event.target == modal) {
-        closeModal();
-    }
-};
-
-</script>
-
-<ul class="residencias-list">
-    {% load static %}
-    {% for residencia in residencias %}
+<ul>
+    {% for item in chats_con_otros %}
         <li>
-            <h3>{{ residencia.titulo }} - {{ residencia.municipio }}</h3>
-            
-            <div class="photo-gallery">
-                {% load static %}
-                {% for imagen in residencia.imagenes.all %}
-                    <img src="{{ imagen.imagen.url }}" alt="Imagen de {{ residencia.titulo }}">
-                {% endfor %}
-            </div>
-
-            <p>{{ residencia.descripcion }}</p>
-            <p class="location-label">Ubicación de la Vivienda:</p>
-            <div class="map-container">
-                <iframe src="{{ residencia.ubicacion }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
-
-            <a href="chat.html?item=residencia{{ residencia.id }}" class="button-1">Contacto</a>
-            {% if residencia.usuario == request.user %}
-            <a href="{% url 'editar_residencia' residencia.id %}" class="button">Editar</a>
-            <a href="{% url 'eliminar_residencia' residencia.id %}" class="button" style="color: red;">Eliminar</a>
-        {% endif %}
+            Chat {{ item.chat.id }} -
+            Con: {{ item.otro_participante.username }}
+            <a href="{% url 'chat_privado' user_id=item.otro_participante.id %}">Entrar al chat</a>
         </li>
+    {% empty %}
+        <li>No tienes chats aún.</li>
     {% endfor %}
 </ul>
-</body>
-</html>
-

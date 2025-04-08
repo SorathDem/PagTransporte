@@ -19,6 +19,7 @@ class Residencia(models.Model):
     titulo = models.CharField(max_length=255)
     descripcion = models.TextField()
     ubicacion = models.URLField(max_length=500)
+    municipio = models.CharField(max_length=100)
     
 class ResidenciaImagen(models.Model):
     residencia = models.ForeignKey(Residencia, on_delete=models.CASCADE, related_name='imagenes')
@@ -30,7 +31,7 @@ class Ruta(models.Model):
     vehiculo = models.CharField(max_length=50, choices=[('Carro', 'Carro'), ('Moto', 'Moto')])
     cupos = models.IntegerField(default=1)  # Asegúrate de definir un valor por defecto
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Si el usuario puede ser opcional
-
+    municipio_ruta = models.CharField(max_length=100, default="el rosal") 
     def __str__(self):
         return self.title
     
@@ -75,3 +76,21 @@ class Calificacion(models.Model):
 
     def __str__(self):
         return f'Calificación de {self.usuario.username} a {self.calificado_usuario.username}'
+    
+
+class Chat(models.Model):
+    participantes = models.ManyToManyField(User, related_name='chats')
+    creado_en = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Chat {self.id}"
+
+class Mensaje(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name='mensajes')
+    remitente = models.ForeignKey(User, on_delete=models.CASCADE)
+    texto = models.TextField()
+    fecha_creacion = models.DateTimeField(auto_now_add=True, null=True)
+
+
+    def __str__(self):
+        return f"{self.remitente.username}: {self.texto[:20]}"
